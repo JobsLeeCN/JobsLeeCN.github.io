@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://jobsleecn.github.io</id>
     <title>Jobs.Lee&apos;s Blog</title>
-    <updated>2021-05-30T07:13:23.944Z</updated>
+    <updated>2021-05-30T07:21:42.408Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://jobsleecn.github.io"/>
     <link rel="self" href="https://jobsleecn.github.io/atom.xml"/>
@@ -10,28 +10,6 @@
     <logo>https://jobsleecn.github.io/images/avatar.png</logo>
     <icon>https://jobsleecn.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Jobs.Lee&apos;s Blog</rights>
-    <entry>
-        <title type="html"><![CDATA[Mac M1芯片arm64架构Java开发者临时解决方案]]></title>
-        <id>https://jobsleecn.github.io/post/mac-m1-xin-pian-arm64-jia-gou-java-kai-fa-zhe-lin-shi-jie-jue-fang-an/</id>
-        <link href="https://jobsleecn.github.io/post/mac-m1-xin-pian-arm64-jia-gou-java-kai-fa-zhe-lin-shi-jie-jue-fang-an/">
-        </link>
-        <updated>2021-05-30T06:59:22.000Z</updated>
-        <content type="html"><![CDATA[<p>苹果新Mac采用arm64架构的M1芯片，对于开发者来说，普通软件有Rosetta进行处理可以满足普通的日常使用，但是对于开发软件如IDEA、Java和MySQL等底层大型软件来说，使用Rosetta的性能是不理想的。</p>
-<p>下面聊一下在目前阶段开发者的“最佳”解决方案。</p>
-<p><strong>IDEA</strong><br>
-本人亲自尝试，老版本并未提供基于ARM64架构新编译的版本，且老版本基于Rosetta的运行有一定卡顿，推荐使用支持M1芯片的最新版本</p>
-<p><strong>Java</strong><br>
-推荐使用Zulu，Zulu是OpenJDK的一个版本，稳定、可靠；对于目前来说OpenJDK与Oracle Java的差别已经很小</p>
-<p><strong>Docker</strong><br>
-官方已经适配，直接使用最新版本即可。</p>
-<p><strong>Docker-MySQL</strong><br>
-MySQL在Docker中的官方镜像目前还没有ARM64版本，可以取分支mysql/mysql-server使用</p>
-<p><strong>Docker-Redis</strong><br>
-官方镜像已经支持ARM64版本</p>
-<p><strong>其他</strong><br>
-后续补充</p>
-]]></content>
-    </entry>
     <entry>
         <title type="html"><![CDATA[更换Homebrew为中科大源]]></title>
         <id>https://jobsleecn.github.io/post/geng-huan-homebrew-wei-zhong-ke-da-yuan/</id>
