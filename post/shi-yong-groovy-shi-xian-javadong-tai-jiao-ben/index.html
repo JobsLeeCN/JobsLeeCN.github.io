@@ -161,90 +161,169 @@
 </script>
 
             <div class="main">
-                <div class="post-wrap archive">
-                    
-                        
-                            <h3>
-                                2021
-                            </h3>
+                <div class="container">
+                    <article class="post-wrap">
+                        <header class="post-header">
+                            <h1 class="post-title">
+                                使用Groovy实现Java“动态”脚本
+                            </h1>
                             
-                                
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/shi-yong-groovy-shi-xian-javadong-tai-jiao-ben/">
-                                            使用Groovy实现Java“动态”脚本
-                                        </a><span class="archive-item-date">2021-07-25 </span></article>
-                                    
+                                    <!--zh-->
+                                    <div class="post-meta zh">
+                                        &#x4F5C;&#x8005;:
+                                        <a itemprop="author" rel="author" href="/">
+                                            Jobs.Lee's Blog
+                                        </a>
+                                        <span class="post-time">&#x65E5;&#x671F;: <a href="#">2021-07-25</a></span>
+                                        <span class="post-readtime">&#x9605;&#x8BFB;&#x65F6;&#x95F4;:<a
+                                    href="#">2.0
+                                    &#x5206;&#x949F;</a></span>
+                                        <span class="post-words">&#x5B57;&#x6570;:<a href="#">474</a></span>
                                         
+                                            <span class="post-category">&#x5206;&#x7C7B;:
                                 
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/geng-huan-homebrew-wei-zhong-ke-da-yuan/">
-                                            更换Homebrew为中科大源
-                                        </a><span class="archive-item-date">2021-05-29 </span></article>
-                                    
-                                        
+                                <a href="https://jobsleecn.github.io/tag/nkfOh3Zd_/">Java</a>
                                 
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/yi-ci-shu-du-sheng-cheng-ji-qiu-jie-fang-an-de-pou-xi-java-shi-xian/">
-                                            一次数独生成及求解方案的剖析（Java实现）
-                                        </a><span class="archive-item-date">2021-05-22 </span></article>
-                                    
-                                        
-                                
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/centos-7-mini-ban-ben-an-zhuang-hou-de-chang-yong-cao-zuo/">
-                                            CentOS 7 mini版本安装后的常用操作
-                                        </a><span class="archive-item-date">2021-05-22 </span></article>
-                                    
-                                        
-                                
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/shi-yong-caddy-shi-xian-fei-biao-zhun-duan-kou-https/">
-                                            使用caddy实现非标准端口https
-                                        </a><span class="archive-item-date">2021-05-22 </span></article>
-                                    
-                                        
-                                
-                                        
-                                
-                                        
+                            </span>
                                             
-                            <h3>
-                                2018
-                            </h3>
-                            
-                                
-                                        
-                                
-                                        
-                                
-                                        
-                                
-                                        
-                                
-                                        
-                                
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/hello-gridea/">
-                                            Hello Gridea，给优秀的Gridea工具
-                                        </a><span class="archive-item-date">2018-12-12 </span></article>
+                                                阅读量:
+                                                <span data-hk-page="current"> - </span>
+                                                
+                                    </div>
                                     
-                                        
-                                
-                                    <article class="archive-item">
-                                        <a class="archive-item-link" href="https://jobsleecn.github.io/post/dui-di-yi-ci-mian-shi-zhi-shi-dian-nei-rong-de-zong-jie-he-bu-chong/">
-                                            对第一次面试知识点内容的总结和补充
-                                        </a><span class="archive-item-date">2018-06-27 </span></article>
-                                    
-                                        
-                                            
-                </div>
-                <div class="pagination-container">
-                    
+                        </header>
+                        
+                        <div class="post-content">
+                            <h3 id="基本背景">基本背景</h3>
+<p>很多时候，我们线上项目需要执行一些数据初始化或者数据修复，然而在某些场景下，使用单纯的MySQL已经无法满足复杂业务上的一些操作；</p>
+<p>为了降低错误和提高效率，考虑使用熟悉的Java语言写脚本。但是传统的Java语言是静态编译的语言，要么手动替换Class重启，要么用arthas进行热更新，都比较麻烦，有什么比较好的方式方法来<strong>支持Java的动态执行</strong>吗？当然还要<strong>兼容Spring环境下的Bean调用</strong>。</p>
+<h3 id="基本原理">基本原理</h3>
+<p><strong>Groovy</strong>是一个更加强大的JVM语言，本身支持脚本实现。</p>
+<p>本项目其实就是基于Groovy语言脚本实现的一种Java&quot;动态&quot;脚本，支持Spring上下文的调用，本身使用其实也比较简单，给大家提供一种参考。</p>
+<h3 id="实现说明">实现说明</h3>
+<p>需要引入的包</p>
+<pre><code class="language-xml">&lt;!-- groovy --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.codehaus.groovy&lt;/groupId&gt;
+    &lt;artifactId&gt;groovy-all&lt;/artifactId&gt;
+    &lt;version&gt;3.0.8&lt;/version&gt;
+    &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>Groovy脚本的运行代码</p>
+<pre><code class="language-java">Binding groovyBinding = new Binding();
+groovyBinding.setVariable(&quot;param&quot;, param);
+GroovyShell groovyShell = new GroovyShell(groovyBinding);
+Script scriptObject = groovyShell.parse(script);
+scriptObject.run();
+</code></pre>
+<p>基本groovy脚本文件示例</p>
+<pre><code class="language-groovy">package org.jobsl.hotdog.groovy
+
+import org.jobsl.hotdog.service.HotdogService
+import org.jobsl.hotdog.util.SpringContextUtil
+
+def hotdog = { param -&gt;
+    result = &quot;success&quot;
+    println(&quot;Start Groovy Script...&quot;)
+    HotdogService hotdogService = SpringContextUtil.getBean(&quot;hotdogService&quot;);
+    println(&quot;SpringObject=&quot; + hotdogService)
+    result = hotdogService.hotdogNice(param)
+    println(&quot;SpringResult=&quot; + hotdogService)
+    println(&quot;End Groovy Script.&quot;)
+    return result
+}
+
+hotdog(param)
+</code></pre>
+<p>参数及返回结果说明：</p>
+<ul>
+<li>
+<p>脚本内置名为param的参数，可以根据需要作为方法传参</p>
+</li>
+<li>
+<p>脚本默认内置了返回结果(String)result，默认值为&quot;success&quot;可以在脚本中接收返回值作为参考</p>
+</li>
+<li>
+<p>Spring相关bean的调用内置的SpringContextUtil.getBean方法</p>
+</li>
+</ul>
+<h3 id="相关项目">相关项目</h3>
+<p><a href="https://github.com/JobsLeeCN/Hotdog">这里点我</a></p>
+
+                        </div>
                         
                                 
-                                        
+                                    
+                                            <!--zh-->
+                                            <section class="post-copyright zh">
+                                                <p class="copyright-item ">
+                                                    <span>&#x4F5C;&#x8005;:</span>
+                                                    <span>Jobs.Lee's Blog</span>
+                                                </p>
+
+                                                <p class="copyright-item">
+                                                    <span>&#x6C38;&#x4E45;&#x94FE;&#x63A5;:</span>
+                                                    <span><a href="https://jobsleecn.github.io/post/shi-yong-groovy-shi-xian-javadong-tai-jiao-ben/">https://jobsleecn.github.io/post/shi-yong-groovy-shi-xian-javadong-tai-jiao-ben/</a></span>
+                                                </p>
+
+                                                <p class="copyright-item">
+                                                    <span>&#x534F;&#x8BAE;:</span>
+                                                    <span>MIT License</span>
+                                                </p>
+                                            </section>
+                                            
+                                                
+                                                    
+                                                                    <!--Share-->
+                                                                    <span style="margin-right:15px">
+                        <i class="post-share"></i>
+                        <span>&#x5206;&#x4EAB;:</span>
+                                                                    <a title="QR 码" target="_blank" href="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://jobsleecn.github.io/post/shi-yong-groovy-shi-xian-javadong-tai-jiao-ben/"><i class="fa fa-qrcode"></i></a>
+                                                                    <a title="QQ" target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://jobsleecn.github.io/post/shi-yong-groovy-shi-xian-javadong-tai-jiao-ben/&sharesource=qzone&title=使用Groovy实现Java“动态”脚本&pics=https://jobsleecn.github.io/images/avatar.png?v=1627203526112&summary="><i class="fa fa-qq"></i></a>
+                                                                    <a title="新浪微博" target="_blank" href="https://service.weibo.com/share/share.php?url=https://jobsleecn.github.io/post/shi-yong-groovy-shi-xian-javadong-tai-jiao-ben/&sharesource=weibo&title=使用Groovy实现Java“动态”脚本 + " - " + &pic="https://jobsleecn.github.io/images/avatar.png?v=1627203526112 "><i class="fa fa-weibo "></i></a>
+
+                                                                    </span>
+                                                                    
+                                                                            <!--zh-->
+                                                                            <section class="post-tags zh ">
+                                                                                <div>
+                                                                                    <span>&#x6807;&#x7B7E;:</span>
+                                                                                    <span class="tag ">
+                        
+                        
+                        <a href="https://jobsleecn.github.io/tag/nkfOh3Zd_/">#
+                    Java
+                        </a>
+                        
+                            
+                                </span>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <a href="javascript:window.history.back();">
+                        &#x8FD4;&#x56DE;</a>
+                                                                                    <span>&dot;</span>
+                                                                                    <a href="#">&#x4E3B;&#x9875;</a>
+                                                                                </div>
+                                                                            </section>
+
+                                                                            
+                                                                                <!---->
+                                                                                <section class="post-nav">
+                                                                                    
+                                                                                            
+                                                                                                <a class="next" rel="next" href="https://jobsleecn.github.io/post/geng-huan-homebrew-wei-zhong-ke-da-yuan/">
+                                                                                                    更换Homebrew为中科大源
+                                                                                                </a>
+                                                                                                
+                                                                                </section>
+                    </article>
                 </div>
+                
+                                            
             </div>
+    </div>
+    </div>
     </div>
     
         <footer id="footer" class="footer">
@@ -307,5 +386,8 @@
                 </script>
         </div>
 </body>
+<script>
+    scroll();
+</script>
 
 </html>
